@@ -25,7 +25,7 @@ services:
     image: yiisoftware/yii2-php:8.0-apache
     volumes:
       - ./src/composer/cache:/root/.composer/cache:delegated
-      - ./src/basic:/app:delegated
+      - ./src/app:/app:delegated
     environment:
       DDBB_NAME: elTero
       DDBB_HOST: db
