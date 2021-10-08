@@ -93,7 +93,7 @@ use yii\helpers\Url;
    </div>
   </div>
   
-  <?= Html::submitInput('Cargar', ['class'=>'btn btn-primary']) ?>
+  <?= Html::submitInput('Actualizar', ['class'=>'btn btn-primary']) ?>
 </div>
 <?php 
 

@@ -61,16 +61,7 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
-
+   
     /**
      * Login action.
      *
@@ -158,16 +149,24 @@ class SiteController extends Controller
           //consultas, calulos etc, Guardado
           $tbl = new TblReservas;
           $tbl->nombre = $model->nombre;
+          $tbl->telefono = $model->telefono;
           $tbl->fecha = $model->fecha;
           $tbl->hora = $model->hora;
+          $tbl->recorrido = $model->recorrido;
           $tbl->cantCaballos = $model->caballos;
+          $tbl->precio = $model->precio;
+          $tbl->valor = $model->valorOferta;
           if($tbl->insert())
           {
             $mensaje = "La reserva fue cargada correctamente.";
             $model->nombre=null;
+            $model->telefono=null;
             $model->fecha=null;
             $model->hora=null;
+            $model->recorrido=null;
             $model->caballos=null;
+            $model->precio=null;
+            $model->valorOferta=null;
           }
           else{
             $mensaje = "Ha ocurrido un error al insertar";
@@ -183,6 +182,7 @@ class SiteController extends Controller
     public function actionReservas($mensaje=null)
     {
       $model = new Query;
+      $today = date("Y-m-d");
       
       if($model->load(Yii::$app->request->get()))
       {
@@ -199,7 +199,9 @@ class SiteController extends Controller
       }
       else
       {
-        $query = TblReservas::find();
+        $query = TblReservas::find()
+                    ->where(['>=', 'fecha', $today])
+                    ->orderBy('fecha');
       }
 
       $countQuery = clone $query;
@@ -231,6 +233,69 @@ class SiteController extends Controller
 
       return $this->redirect(['site/reservas', 'mensaje'=>$mensaje]);
     } 
+
+    public function actionEditreserva($id, $nombre, $fecha, $hora, $recorrido, $precio, $valor, $telefono, $caballos, $mensaje=null)
+    {
+      $model = new ValidarReserva;
+
+      $mensaje = null; 
+      $model->nombre=$nombre;
+      $model->telefono=$telefono;
+      $model->fecha=$fecha;
+      $model->hora=$hora;
+      $model->recorrido=$recorrido;
+      $model->caballos=$caballos;
+      $model->precio=$precio;
+      $model->valorOferta=$valor;
+
+      if($model->load(Yii::$app->request->post()))
+      {
+        if ($model->validate())
+        {
+          //consultas, calulos etc, Guardado
+          $tbl = new TblReservas;
+          $tbl->nombre = $model->nombre;
+          $tbl->telefono = $model->telefono;
+          $tbl->fecha = $model->fecha;
+          $tbl->hora = $model->hora;
+          $tbl->recorrido = $model->recorrido;
+          $tbl->cantCaballos = $model->caballos;
+          $tbl->precio = $model->precio;
+          $tbl->valor = $model->valorOferta;
+          if($tbl->insert())
+          {
+            $mensaje = "La reserva fue cargada correctamente.";
+            $model->nombre=null;
+            $model->telefono=null;
+            $model->fecha=null;
+            $model->hora=null;
+            $model->recorrido=null;
+            $model->caballos=null;
+            $model->precio=null;
+            $model->valorOferta=null;
+          }
+          else{
+            $mensaje = "Ha ocurrido un error al insertar";
+          }
+        }
+        else{
+          $model->getErrors();
+        }
+      }
+      return $this->render('editreserva', [
+        'model'=>$model,
+        'id'=>$id,
+        'nombre'=>$nombre,
+        'fecha'=>$fecha,
+        'hora'=>$hora,
+        'recorrido'=>$recorrido,
+        'precio'=>$precio,
+        'valor'=>$valor,
+        'telefono'=>$telefono,
+        'caballos'=>$caballos,
+        'mensaje'=>$mensaje,
+      ]);
+    }
   
 
 }
