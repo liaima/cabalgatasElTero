@@ -6,11 +6,12 @@ use yii\data\Pagination;
 use yii\widgets\LinkPager;
 ?>
 
-  <a href="<?= Url::toRoute('site/nueva') ?>" class="btn btn-success"><i class="bi bi-person-plus-fill"></i> Nueva...</a>
+  <a href="<?= Url::toRoute('site/nueva') ?>" class="btn btn-success"><i class="bi bi-person-plus-fill"></i> Nueva Reserva</a>
   <a href="<?= Url::toRoute([
     'site/reservas', 
     'todas'=>($todas) ? false : true]) ?>" class="btn btn-info"><i class="bi bi-view-list"></i> 
     <?= ($todas) ? 'Ver desede hoy' : 'Ver Todas' ?></a>
+    <a href="<?= Url::toRoute('site/reservas') ?>" class="btn btn-secondary"><i class="bi bi-arrow-repeat"></i> Actualizar</a>
 <br>
 <h3>Lista de Reservas</h3>
 

@@ -203,11 +203,17 @@ class SiteController extends Controller
       {
         if ($todas) {
           $query = TblReservas::find()
-            ->orderBy('fecha');
+            ->orderBy([
+              'fecha' => SORT_ASC,
+              'hora' => SORT_ASC
+            ]);
         }else{
           $query = TblReservas::find()
           ->where(['>=', 'fecha', $today])
-          ->orderBy('fecha');
+          ->orderBy([
+            'fecha' => SORT_ASC,
+            'hora' => SORT_ASC
+          ]);
         }
         
       }
@@ -215,7 +221,7 @@ class SiteController extends Controller
       $countQuery = clone $query;
       $pages = new Pagination([
           'totalCount' => $countQuery->count(),
-          'pageSize' => 5
+          'pageSize' => 10
       ]);
 
       $data = $query->offset($pages->offset)
