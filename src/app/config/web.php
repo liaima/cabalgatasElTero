@@ -5,7 +5,8 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
-    'name' => 'Tero´s',
+    'name' => 'ReservationRegistry',
+    'version' => '0.0.1-alpha',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'defaultRoute' => 'site/reservas',

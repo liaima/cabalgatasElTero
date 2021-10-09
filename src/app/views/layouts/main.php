@@ -79,7 +79,7 @@ AppAsset::register($this);
     <div class="container">
         <p class="float-left">&copy; <a href="http://liaima.sytes.net">LIAIMASoft</a> <?= date('Y') ?></p>
         
-        <p class="float-right"><?= Yii::powered() ?></p>
+        <p class="float-right"><?= Yii::$app->name ." - version ". Yii::$app->version?></p>
     </div>
 </footer>
 
