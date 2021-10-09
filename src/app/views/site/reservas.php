@@ -47,6 +47,7 @@ define('DIA', ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 
 $today = date("Y-m-d");
 $color = "";
 $valor = "";
+$i = 0;
  foreach($data as $row):
   $date = date_create($row->fecha);
   if ($row->fecha == $today) {
@@ -78,19 +79,44 @@ $valor = "";
         'telefono'=>$row->telefono,
         'caballos'=>$row->cantCaballos,
         'comentario'=>($row->comentario!=null)? $row->comentario : "",]) ?>" class="btn btn-success"><i class="bi bi-pencil"></i>Editar
-    
-   
-      <a href="<?= Url::toRoute([
-        'site/delreserva', 
-        'id'=>$row->id,
-        'nombre'=>$row->nombre, 
-      ]) ?>" class="btn btn-danger"><i class="bi bi-trash"></i>Borrar
+      </a>
+
+     
+      
+
+      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal<?=$i?>">
+      <i class="bi bi-trash"></i>Borrar
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal<?=$i?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Borrar Reserva</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            Está seguro que desea borrar la reserva de <?=$row->nombre?>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <a href="<?= Url::toRoute([
+              'site/delreserva', 
+              'id'=>$row->id,
+              'nombre'=>$row->nombre, 
+            ]) ?>" class="btn btn-danger">Si, borrar</a>
+            </div>
+          </div>
+        </div>
+      </div>
    
   </td>
 </tr>
 <?php 
 $color="";
 $valor = "";
+$i++;
 endforeach ;
 if($data==null){
   echo "<div class='alert alert-warning' role='alert'> No Hay Reservas... </div>";
