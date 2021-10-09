@@ -14,6 +14,7 @@ class ValidarReserva extends Model
   public $caballos;
   public $precio;
   public $valorOferta;
+  public $comentario;
 
   public function rules()
   {
@@ -29,6 +30,7 @@ class ValidarReserva extends Model
       ['caballos', 'required', 'message'=>'La hora es requerido'],
       ['precio', 'required', 'message'=>'La hora es requerido'],
       ['valorOferta', 'match', 'pattern'=>'/^[0-9]+$/i', 'message'=>'Solo números'],
+      ['comentario', 'default'],
     ];
   }
 
@@ -42,7 +44,8 @@ class ValidarReserva extends Model
       'recorrido' => 'Recorrido:',
       'caballos' => 'Cantidad de Caballos:',
       'precio' => 'Precio:',
-      'valorOferta' => 'Precio Total:'
+      'valorOferta' => 'Precio Total:',
+      'comentario' => 'Comentario:'
     ];
   }
 }

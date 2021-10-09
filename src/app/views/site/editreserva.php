@@ -36,6 +36,14 @@ use yii\helpers\Url;
     "Residente" => "Residente",
     "Oferta" => "Oferta"
   ];
+  $itemsCaballos = [
+    "1" => "1 ",
+    "2" => "2",
+    "3" => "3",
+    "4" => "4",
+    "5" => "5",
+    "6" => "6"
+  ];
 ?>
 
 <div class="container-sm">
@@ -87,10 +95,19 @@ use yii\helpers\Url;
   </div>
    <div class="col">
       <div class="form-group">
-    <?= $form->field($model, 'caballos')->input(type: 'number') ?>
+    <?= $form->field($model, 'caballos')->dropdownList(items: $itemsCaballos) ?>
    </div>
 
    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <?= $form->field($model, 'comentario')->textarea(options: [
+          'placeholder'=>'Comentario:'
+        ]) ?>  
+      </div>
+   </div> 
   </div>
   
   <?= Html::submitInput('Actualizar', ['class'=>'btn btn-primary']) ?>
@@ -105,6 +122,13 @@ use yii\helpers\Url;
   let precio = document.getElementById('validarreserva-precio');
   //let valor = precio.value;
   //console.log(valor);
+  let valor = precio.value;
+    if (valor == 'Oferta') {
+      console.log('oferta!');
+      document.getElementById('valorDeOferta').hidden = false;
+    }else{
+      document.getElementById('valorDeOferta').hidden = true;
+    }
   precio.addEventListener('change', ()=>{
     let valor = precio.value;
     if (valor == 'Oferta') {

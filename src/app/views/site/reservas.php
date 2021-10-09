@@ -7,12 +7,17 @@ use yii\widgets\LinkPager;
 ?>
 
   <a href="<?= Url::toRoute('site/nueva') ?>" class="btn btn-success"><i class="bi bi-person-plus-fill"></i> Nueva...</a>
+  <a href="<?= Url::toRoute([
+    'site/reservas', 
+    'todas'=>($todas) ? false : true]) ?>" class="btn btn-info"><i class="bi bi-view-list"></i> 
+    <?= ($todas) ? 'Ver desede hoy' : 'Ver Todas' ?></a>
 <br>
 <h3>Lista de Reservas</h3>
 
 <?php if($mensaje!=null){
-  echo "<div class='alert alert-warning' role='alert'> $mensaje </div>";
-} ?>
+  echo "<div class='alert alert-$color' role='alert'> $mensaje </div>";
+}
+?>
 
 <?php 
   $form = ActiveForm::begin([
@@ -55,6 +60,7 @@ $valor = "";
     <p class="fs-5"> <?= DIA[date_format($date, "w")] ?> - <?= date_format($date, "d-m-Y") ?></p>
     <p><?= $row->hora ?> - <?= $row->recorrido ?> x<?= $row->cantCaballos ?> - <?= $row->nombre ?></p>
     <p><?= $row->telefono ?> - <?= $row->precio ?> <?=$valor . $row->valor ?></p>
+    <p><?= $row->comentario ?></p>
   </td>
    
   <td>
@@ -69,12 +75,14 @@ $valor = "";
         'precio'=>$row->precio,
         'valor'=>($row->valor!=null) ? $row->valor : "",
         'telefono'=>$row->telefono,
-        'caballos'=>$row->cantCaballos]) ?>" class="btn btn-success"><i class="bi bi-pencil"></i>Editar
+        'caballos'=>$row->cantCaballos,
+        'comentario'=>($row->comentario!=null)? $row->comentario : "",]) ?>" class="btn btn-success"><i class="bi bi-pencil"></i>Editar
     
    
       <a href="<?= Url::toRoute([
         'site/delreserva', 
-        'id'=>$row->id, 
+        'id'=>$row->id,
+        'nombre'=>$row->nombre, 
       ]) ?>" class="btn btn-danger"><i class="bi bi-trash"></i>Borrar
    
   </td>
@@ -82,8 +90,12 @@ $valor = "";
 <?php 
 $color="";
 $valor = "";
-endforeach ?>
+endforeach ;
+if($data==null){
+  echo "<div class='alert alert-warning' role='alert'> No Hay Reservas... </div>";
+} ?>
 </table>
+
 </div>
 
 <?= LinkPager::widget([

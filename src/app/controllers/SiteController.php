@@ -156,6 +156,7 @@ class SiteController extends Controller
           $tbl->cantCaballos = $model->caballos;
           $tbl->precio = $model->precio;
           $tbl->valor = $model->valorOferta;
+          $tbl->comentario = $model->comentario;
           if($tbl->insert())
           {
             $mensaje = "La reserva fue cargada correctamente.";
@@ -167,6 +168,7 @@ class SiteController extends Controller
             $model->caballos=null;
             $model->precio=null;
             $model->valorOferta=null;
+            $model->comentario=null;
           }
           else{
             $mensaje = "Ha ocurrido un error al insertar";
@@ -179,11 +181,11 @@ class SiteController extends Controller
       return $this->render('nuevaReserva', ['model'=>$model, 'mensaje'=>$mensaje]);
     }
 
-    public function actionReservas($mensaje=null)
+    public function actionReservas($mensaje=null, $color=null, $todas=false)
     {
       $model = new Query;
       $today = date("Y-m-d");
-      
+       
       if($model->load(Yii::$app->request->get()))
       {
         if ($model->validate())
@@ -199,9 +201,15 @@ class SiteController extends Controller
       }
       else
       {
-        $query = TblReservas::find()
-                    ->where(['>=', 'fecha', $today])
-                    ->orderBy('fecha');
+        if ($todas) {
+          $query = TblReservas::find()
+            ->orderBy('fecha');
+        }else{
+          $query = TblReservas::find()
+          ->where(['>=', 'fecha', $today])
+          ->orderBy('fecha');
+        }
+        
       }
 
       $countQuery = clone $query;
@@ -217,6 +225,8 @@ class SiteController extends Controller
 
       return $this->render('reservas', [
         'mensaje'=>$mensaje, 
+        'color'=>$color,
+        'todas'=>$todas,
         'data'=>$data, 
         'model'=>$model,
         'pages'=>$pages
@@ -231,14 +241,16 @@ class SiteController extends Controller
 
       $mensaje = "Se ha eliminado el la reserva de: $nombre";
 
-      return $this->redirect(['site/reservas', 'mensaje'=>$mensaje]);
+      return $this->redirect(['site/reservas', 'mensaje'=>$mensaje, 'color'=>'warning']);
     } 
 
-    public function actionEditreserva($id, $nombre, $fecha, $hora, $recorrido, $precio, $valor, $telefono, $caballos, $mensaje=null)
+    public function actionEditreserva($id, $nombre, $fecha, $hora, $recorrido, $precio, $valor, $telefono, $caballos, $comentario, $mensaje=null)
     {
+      /*
+      if ($comentario == null) {
+        $comentario="";
+      }*/
       $model = new ValidarReserva;
-
-      $mensaje = null; 
       $model->nombre=$nombre;
       $model->telefono=$telefono;
       $model->fecha=$fecha;
@@ -247,13 +259,15 @@ class SiteController extends Controller
       $model->caballos=$caballos;
       $model->precio=$precio;
       $model->valorOferta=$valor;
+      $model->comentario=$comentario;
 
       if($model->load(Yii::$app->request->post()))
       {
         if ($model->validate())
         {
           //consultas, calulos etc, Guardado
-          $tbl = new TblReservas;
+          $tbl = TblReservas::findOne($id);
+          
           $tbl->nombre = $model->nombre;
           $tbl->telefono = $model->telefono;
           $tbl->fecha = $model->fecha;
@@ -262,20 +276,15 @@ class SiteController extends Controller
           $tbl->cantCaballos = $model->caballos;
           $tbl->precio = $model->precio;
           $tbl->valor = $model->valorOferta;
-          if($tbl->insert())
+          $tbl->comentario = $model->comentario;
+          if($tbl->update())
           {
-            $mensaje = "La reserva fue cargada correctamente.";
-            $model->nombre=null;
-            $model->telefono=null;
-            $model->fecha=null;
-            $model->hora=null;
-            $model->recorrido=null;
-            $model->caballos=null;
-            $model->precio=null;
-            $model->valorOferta=null;
+            $mensaje = "La reserva de $nombre fue actualizada correctamente.";
+            $color = 'success';
+            return $this->redirect(['site/reservas', 'mensaje'=>$mensaje, 'color'=>$color]);
           }
           else{
-            $mensaje = "Ha ocurrido un error al insertar";
+            $mensaje = "Ha ocurrido un error al actualizar";
           }
         }
         else{
@@ -293,6 +302,7 @@ class SiteController extends Controller
         'valor'=>$valor,
         'telefono'=>$telefono,
         'caballos'=>$caballos,
+        'comentario'=>$comentario,
         'mensaje'=>$mensaje,
       ]);
     }
