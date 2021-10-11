@@ -21,3 +21,7 @@ docker-compose up -d
 ```
 docker-compose exec -u www-data app bash -c "composer install" 
 ```
+- Asignar Permisos:
+```
+chmod 777 src/app/runtime/ src/app/web/assets/
+```
