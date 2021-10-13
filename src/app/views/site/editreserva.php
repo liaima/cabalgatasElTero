@@ -28,7 +28,8 @@ use yii\helpers\Url;
     "Río" => "Río",
     "Lago" => "Lago",
     "Cascada" => "Cascada",
-    "Quemado" => "Quemado"
+    "Quemado" => "Quemado",
+    "Ladera" => "Ladera"
   ];
   $itemsPrecio = [
     "Completo" => "Completo ",
