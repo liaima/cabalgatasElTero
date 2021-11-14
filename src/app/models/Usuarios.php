@@ -17,6 +17,8 @@ use Yii;
  */
 class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+    public $role;
+
     /**
      * {@inheritdoc}
      */
@@ -87,5 +89,27 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     public function validatePassword($password)
     {
         return password_verify($password, $this->password);
+    }
+
+    
+    public static function isUserAdmin($id)
+    {
+       if (Usuarios::findOne(['id' => $id, 'perfil' => 'admin'])){
+        return true;
+       } else {
+
+        return false;
+       }
+
+    }
+
+    public static function isUserSimple($id)
+    {
+       if (Usuarios::findOne(['id' => $id, 'perfil' => 'user'])){
+       return true;
+       } else {
+
+       return false;
+       }
     }
 }
