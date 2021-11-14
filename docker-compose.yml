@@ -1,4 +1,4 @@
-version: '3.1'
+version: "3.1"
 
 services:
   db:
@@ -30,5 +30,6 @@ services:
       DDBB_NAME: elTero
       DDBB_HOST: db
       DDBB_PASSWORD: Tero123
+      PRODUCCION: 0
     ports:
       - 8000:80

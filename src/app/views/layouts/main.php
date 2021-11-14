@@ -46,7 +46,7 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Reservas', 'url' => ['/site/reservas']],
             ['label' => 'Nueva Reserva', 'url' => ['/site/nueva']],
-            /*['label' => 'Contact', 'url' => ['/site/contact']],
+            /*['label' => 'Contact', 'url' => ['/site/contact']],*/
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -58,7 +58,7 @@ AppAsset::register($this);
                 )
                 . Html::endForm()
                 . '</li>'
-            )*/
+            )
         ],
     ]);
     NavBar::end();
