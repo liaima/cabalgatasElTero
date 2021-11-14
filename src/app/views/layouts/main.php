@@ -4,6 +4,7 @@
 /* @var $content string */
 
 use app\assets\AppAsset;
+use app\models\Usuarios;
 use app\widgets\Alert;
 use yii\bootstrap4\Breadcrumbs;
 use yii\bootstrap4\Html;
@@ -46,7 +47,13 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Reservas', 'url' => ['/site/reservas']],
             ['label' => 'Nueva Reserva', 'url' => ['/site/nueva']],
-            /*['label' => 'Contact', 'url' => ['/site/contact']],
+            /*['label' => 'Contact', 'url' => ['/site/contact']],*/
+            [
+                'label' => 'Usuarios', 
+                'url' => ['/usuario'],
+                'visible' => !Yii::$app->user->isGuest && Usuarios::isUserAdmin(Yii::$app->user->identity->id)
+            ],
+
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -58,7 +65,7 @@ AppAsset::register($this);
                 )
                 . Html::endForm()
                 . '</li>'
-            )*/
+            )
         ],
     ]);
     NavBar::end();

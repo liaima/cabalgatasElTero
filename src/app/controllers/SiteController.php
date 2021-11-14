@@ -14,6 +14,7 @@ use app\models\TblReservas;
 use app\models\TblPrueba;
 use yii\bootstrap\Modal;
 use app\models\Query;
+use app\models\Usuarios;
 use yii\helpers\Html;
 use yii\data\Pagination;
 
@@ -27,15 +28,40 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'except' => ['login'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        //El administrador tiene permisos sobre las siguientes acciones
+                        'actions' => ['logout', 'reservas', 'nueva'],
+                        //Esta propiedad establece que tiene permisos
                         'allow' => true,
+                        //Usuarios autenticados, el signo ? es para invitados
                         'roles' => ['@'],
+                        //Este método nos permite crear un filtro sobre la identidad del usuario
+                        //y así establecer si tiene permisos o no
+                        'matchCallback' => function ($rule, $action) {
+                            //Llamada al método que comprueba si es un administrador
+                            return Usuarios::isUserAdmin(Yii::$app->user->identity->id);
+                        },
                     ],
+                    [
+                       //Los usuarios simples tienen permisos sobre las siguientes acciones
+                       'actions' => ['logout', 'reservas', 'nueva'],
+                       //Esta propiedad establece que tiene permisos
+                       'allow' => true,
+                       //Usuarios autenticados, el signo ? es para invitados
+                       'roles' => ['@'],
+                       //Este método nos permite crear un filtro sobre la identidad del usuario
+                       //y así establecer si tiene permisos o no
+                       'matchCallback' => function ($rule, $action) {
+                          //Llamada al método que comprueba si es un usuario simple
+                          return Usuarios::isUserSimple(Yii::$app->user->identity->id);
+                      },
+                   ],
                 ],
             ],
+     //Controla el modo en que se accede a las acciones, en este ejemplo a la acción logout
+     //sólo se puede acceder a través del método post
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -69,19 +95,35 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if (!\Yii::$app->user->isGuest) {
+   
+          if (Usuarios::isUserAdmin(Yii::$app->user->identity->id))
+          {
+            return $this->redirect(["../usuario"]);
+          }
+          else
+          {
+            return $this->redirect(["reservas"]);
+          }
         }
-
+ 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+   
+            if (Usuarios::isUserAdmin(Yii::$app->user->identity->id))
+            {
+              return $this->redirect(["../usuario"]);
+            }
+            else
+            {
+              return $this->redirect(["reservas"]);
+            }
+   
+        } else {
+            return $this->render('login', [
+                'model' => $model,
+            ]);
         }
-
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
     }
 
     /**
