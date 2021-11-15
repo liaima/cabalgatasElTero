@@ -1,6 +1,6 @@
 # cabalgatasElTero
 
-![](https://github.com/liaima/cabalgatasElTero/tree/main/icon.png)
+![](https://github.com/liaima/cabalgatasElTero/blob/main/icon.png)
 
 Aplicación para el registro de reservas de Cabalgatas El Tero en Villa La Angostura - Neuquén - Patagonia Argentina.
 
@@ -8,7 +8,7 @@ Ultima versión a la fecha: 0.0.1-alpha
 
 ## Descargar la App Android
 
-### [Descargar](https://github.com/liaima/cabalgatasElTero/tree/main/AppAndroid "Descargar App")
+### [Descargar](https://github.com/liaima/cabalgatasElTero/raw/main/AppAndroid/_ReservationRegistry_14769994.apk "Descargar App")
 
 ## Puesta en marcha del Ambiente:
 
