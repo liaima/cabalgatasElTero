@@ -130,8 +130,28 @@ class UsuarioController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post())) {
+                if ($model->validate()) {
+                    $model->username = $_POST['Usuarios']['username'];
+                    $model->nombre = $_POST['Usuarios']['nombre'];
+                    $model->perfil = $_POST['Usuarios']['perfil'];
+                    $model->password = password_hash($_POST['Usuarios']['password'], PASSWORD_BCRYPT);
+                    $model->authKey = md5(random_bytes(5));
+                    $model->accessToken = password_hash(random_bytes(5), PASSWORD_DEFAULT);
+
+                    if ($model->save()) {
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }else{
+                        $model->getErrors();
+                    }
+                }else{
+                    $model->getErrors();
+                }
+                
+            }
+        } else {
+            $model->loadDefaultValues();
         }
 
         return $this->render('update', [
