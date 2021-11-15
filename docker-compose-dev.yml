@@ -6,8 +6,20 @@ services:
     environment:
       MYSQL_DATABASE: elTero
       MYSQL_ROOT_PASSWORD: Tero123
+    ports:
+      - 4000:3306
     volumes:
       - ./mysqldata:/var/lib/mysql
+
+  myadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: Tero123
+    ports:
+      - 8001:80
 
   app:
     image: yiisoftware/yii2-php:8.0-apache
@@ -18,6 +30,6 @@ services:
       DDBB_NAME: elTero
       DDBB_HOST: db
       DDBB_PASSWORD: Tero123
-      PRODUCCION: 1
+      PRODUCCION: 0
     ports:
       - 8000:80
