@@ -32,7 +32,7 @@ class SiteController extends Controller
                 'rules' => [
                     [
                         //El administrador tiene permisos sobre las siguientes acciones
-                        'actions' => ['logout', 'reservas', 'nueva'],
+                        'actions' => ['logout', 'reservas', 'nueva', 'delreserva', 'editreserva'],
                         //Esta propiedad establece que tiene permisos
                         'allow' => true,
                         //Usuarios autenticados, el signo ? es para invitados
@@ -46,7 +46,7 @@ class SiteController extends Controller
                     ],
                     [
                        //Los usuarios simples tienen permisos sobre las siguientes acciones
-                       'actions' => ['logout', 'reservas', 'nueva'],
+                       'actions' => ['logout', 'reservas', 'nueva', 'delreserva', 'editreserva'],
                        //Esta propiedad establece que tiene permisos
                        'allow' => true,
                        //Usuarios autenticados, el signo ? es para invitados
