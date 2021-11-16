@@ -35,6 +35,7 @@ use yii\helpers\Url;
     "Completo" => "Completo ",
     "Descuento" => "Descuento",
     "Residente" => "Residente",
+    "Exlusivo" => "Exlusivo",
     "Oferta" => "Oferta"
   ];
   $itemsCaballos = [
