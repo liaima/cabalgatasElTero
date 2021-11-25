@@ -19,5 +19,8 @@ services:
       DDBB_HOST: db
       DDBB_PASSWORD: Tero123
       PRODUCCION: 1
+      VIRTUAL_HOST: tero.liaima.com.ar
+    networks:
+      - proxyNet
     ports:
-      - 8000:80
+      - 8080:80
