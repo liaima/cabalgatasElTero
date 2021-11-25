@@ -5,6 +5,16 @@ networks:
   backend:
 
 services:
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - 8000:80
+    networks:
+      - proxyNet
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
   db:
     image: mysql:5.7.27
     environment:
