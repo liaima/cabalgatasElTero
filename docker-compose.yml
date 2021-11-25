@@ -1,5 +1,8 @@
 version: "3.1"
 
+networks:
+  proxyNet:
+  
 services:
   db:
     image: mysql:5.7.27
