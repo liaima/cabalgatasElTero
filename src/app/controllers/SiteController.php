@@ -236,6 +236,13 @@ class SiteController extends Controller
           $query = TblReservas::find()
             ->where(['like', 'id', $search])
             ->orWhere(['like', 'nombre', $search]);
+
+            $countQuery = clone $query;
+      
+            $pages = new Pagination([
+                'totalCount' => $countQuery->count(),
+                'pageSize' => 10
+            ]);
         }
         else{
           $model->getErrors();
@@ -249,6 +256,12 @@ class SiteController extends Controller
               'fecha' => SORT_ASC,
               'hora' => SORT_ASC
             ]);
+            $countQuery = clone $query;
+      
+            $pages = new Pagination([
+                'totalCount' => $countQuery->count(),
+                'pageSize' => 20
+            ]);
         }else{
           $query = TblReservas::find()
           ->where(['>=', 'fecha', $today])
@@ -256,15 +269,15 @@ class SiteController extends Controller
             'fecha' => SORT_ASC,
             'hora' => SORT_ASC
           ]);
+          $countQuery = clone $query;
+      
+          $pages = new Pagination([
+              'totalCount' => $countQuery->count(),
+              'pageSize' => $countQuery->count()
+          ]);
         }
         
       }
-
-      $countQuery = clone $query;
-      $pages = new Pagination([
-          'totalCount' => $countQuery->count(),
-          'pageSize' => 10
-      ]);
 
       $data = $query->offset($pages->offset)
                     ->limit($pages->limit)
