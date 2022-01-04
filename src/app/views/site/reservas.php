@@ -46,7 +46,7 @@ use yii\widgets\LinkPager;
 define('DIA', ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']);
 define('MES', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Novimbre', 'Diciembre']);
 $today = date("Y-m-d");
-$month = date_format(date_create('m'), 'n');
+$month = date_format(date_create($data[0]->fecha), 'n');
 
 $color = "";
 $valor = "";
