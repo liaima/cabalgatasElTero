@@ -44,7 +44,10 @@ use yii\widgets\LinkPager;
   </tr>
 <?php 
 define('DIA', ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']);
+define('MES', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Novimbre', 'Diciembre']);
 $today = date("Y-m-d");
+$month = date_format(date_create('m'), 'n');
+
 $color = "";
 $valor = "";
 $i = 0;
@@ -56,6 +59,15 @@ $i = 0;
   if ($row->valor!=null) {
     $valor = " - $";   
   }
+  if ($month == date_format($date, 'n')):
+?>
+
+  <tr>
+    <th><?=MES[$month-1].' '.date_format($date, 'Y')?></th>
+  </tr>
+<?php 
+$month++;
+endif
 ?>
 <tr class=<?= $color ?>>
   <td>
